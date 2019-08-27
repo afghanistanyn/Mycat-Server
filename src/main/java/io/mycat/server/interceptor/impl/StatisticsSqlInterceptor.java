@@ -55,7 +55,15 @@ private final class StatisticsSqlRunner implements Runnable {
                                 StatisticsSqlInterceptor.appendFile(sqlInterceptorFile, "DELETE:"
                                     + sqls);
                                 break;
+                            case ServerParse.DDL:
+                                StatisticsSqlInterceptor.appendFile(sqlInterceptorFile,"DDL:"
+                                    +sqls);
+                            case ServerParse.OTHER:
+                                StatisticsSqlInterceptor.appendFile(sqlInterceptorFile,"OTHER:"
+                                    +sqls);
                             default:
+                                StatisticsSqlInterceptor.appendFile(sqlInterceptorFile,"Unparsed sql:"
+                                    +sqls);
                                 break;
                         }
                     }
@@ -75,6 +83,8 @@ private final class StatisticsSqlRunner implements Runnable {
         typeMap.put("UPDATE", 11);
         typeMap.put("INSERT", 4);
         typeMap.put("DELETE", 3);
+        typeMap.put("DDL", 100);
+        typeMap.put("OTHER", -1);
     }
     
     public static int parseType(String type) {
